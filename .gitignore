@@ -1,0 +1,16 @@
+# Directorios de entornos virtuales
+*/entorno*/
+entorno-transformers
+
+# Archivos de caché y temporales de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de configuración de Visual Studio Code
+.vscode/
+
+# Archivos de caché del SO
+.DS_Store
+Thumbs.db
