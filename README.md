@@ -2,8 +2,8 @@ FUTBOLBOT IA – Alineado con los criterios del Concurso de Capstone Projects
 1️⃣ Propósito del chatbot
 Enfoque:
 
-“FutbolBot IA busca ser un asistente futbolero inteligente que entiende emociones, responde consultas acerca de equipos locales, analiza audios e imágenes, y acerca la tecnología de IA al fanático del 
-fútbol argentino.”
+“FutbolBot IA busca ser un asistente futbolero inteligente que entiende emociones, responde consultas acerca de equipos locales, analiza audios e imágenes,
+y acerca la tecnología de IA al fanático del fútbol argentino.”
 
 2️⃣ Funcionalidad y experiencia de uso
 Enfoque:
