@@ -35,8 +35,6 @@ Enfoque:
 
 6️⃣ Impacto potencial / escalabilidad
 Enfoque:
-  
 1)Puede ampliarse a distintos clubes o selecciones.
 2)Integrarse con APIs de resultados en tiempo real.
 3)Adaptarse a otros deportes o regiones.
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
