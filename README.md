@@ -12,10 +12,6 @@ Diseño de Conversación Fluida: Acepta comandos claros a través de voz, imagen
 
 Interacción Natural: El bot contesta con mensajes cortos y directos.
 
-Contenido y Lenguaje: Utiliza un lenguaje informal, amistoso y futbolero, empleando emojis, banderas y tono local para hacerlo cercano.
-
-Base de Conocimiento: Se alimenta de un dataset propio con respuestas a preguntas frecuentes y reales de hinchas.
-
 3) Aplicación de Inteligencia Artificial (Uso de Tecnología)
 Enfoque: Combinar múltiples tecnologías de IA para una experiencia integral.
 
@@ -25,16 +21,14 @@ Procesamiento de Lenguaje Natural (PLN): Implementado para el análisis de senti
 
 Reconocimiento de Voz: Permite la interacción convirtiendo los audios de los usuarios en texto.
 
-Dataset Propio: Base de datos para respuestas automáticas de fútbol.
-
-Análisis de Emociones: Una función clave para analizar las emociones futboleras del usuario.
+Análisis de Emociones: Una función clave para analizar las emociones del usuario.
 
 4) Creatividad e Innovación
 Punto Clave: Combinar tres tipos de IA (texto, voz, imagen) en un solo bot.
 
 Integrar las capacidades de IA para texto, voz e imagen en una única experiencia.
 
-Su capacidad para analizar y responder a las emociones futboleras del usuario.
+Su capacidad para analizar y responder a las emociones del usuario.
 
 5) Impacto Potencial y Escalabilidad
 Enfoque: Diseño pensado para la expansión y la integración con sistemas externos.
