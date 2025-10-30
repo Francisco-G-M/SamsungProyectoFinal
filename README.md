@@ -28,6 +28,8 @@ Punto Clave: Combinar tres tipos de IA (texto, voz, imagen) en un solo bot.
 
 Integrar las capacidades de IA para texto, voz e imagen en una única experiencia.
 
+Su capacidad para analizar y responder a las emociones del usuario.
+
 5) Impacto Potencial y Escalabilidad
 Enfoque: Diseño pensado para la expansión y la integración con sistemas externos.
 
