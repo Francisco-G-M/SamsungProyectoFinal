@@ -1,6 +1,7 @@
 # Directorios de entornos virtuales
 */entorno*/
 entorno-transformers
+.env
 
 # Archivos de caché y temporales de Python
 __pycache__/

@@ -4,7 +4,7 @@ from transformers import pipeline
 import time # Mantén esta importación si quieres usar sleep en otros lugares
 
 # Configuración del bot
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "7636746872:AAG_1EgeTtR7K3_mCyYqwgNrXMHuo4Q7hw0")
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 
 # Carga del modelo de análisis de sentimiento
