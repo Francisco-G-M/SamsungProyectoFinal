@@ -1,17 +1,24 @@
-# Directorios de entornos virtuales
-*/entorno*/
-entorno-transformers
+# 1. Directorios de entornos virtuales
+/entorno/
+/venv/
+/env/
+
+# 2. Claves e información privada
 .env
 
-# Archivos de caché y temporales de Python
+# 3. Archivos del proyecto (a ignorar)
+/dataset.json
+/Transformers/
+
+# 4. Archivos de caché y temporales de Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 
-# Archivos de configuración de Visual Studio Code
+# 5. Archivos de configuración de Visual Studio Code
 .vscode/
 
-# Archivos de caché del SO
+# 6. Archivos de caché del SO
 .DS_Store
 Thumbs.db
