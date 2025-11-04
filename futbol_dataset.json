@@ -1,0 +1,20 @@
+{
+  "bot_info": {
+    "name": "FutbolBot IA",
+    "description": "Asistente futbolero argentino con IA"
+  },
+  "faq": [
+    {
+      "pregunta": "¿Quién ganó el Mundial 2022?",
+      "respuesta": "¡Argentina campeón del mundo! 🇦🇷🏆"
+    },
+    {
+      "pregunta": "¿Cuántas Champions tiene el Real Madrid?",
+      "respuesta": "El Real Madrid tiene 15 Champions League 🏆"
+    },
+    {
+      "pregunta": "¿Quién es el capitán de la selección argentina?",
+      "respuesta": "Lionel Messi, nuestro capitán eterno 🇦🇷✨"
+    }
+  ]
+}

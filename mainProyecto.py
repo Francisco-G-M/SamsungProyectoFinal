@@ -5,6 +5,8 @@ from bot_functions import (
     imagen_a_base64, 
     describir_imagen_con_groq
 )
+import os
+import tempfile
 
 faq_manager = FaqManager() 
 
@@ -85,6 +87,54 @@ def manejar_foto(mensaje):
     except Exception as e:
         print(f"Error al procesar la imagen: {e}")
         bot.reply_to(mensaje, "❌ Ocurrió un error al procesar tu imagen. Intenta de nuevo.")
+
+@bot.message_handler(content_types=['voice'])
+def manejar_voz(message):
+    try:
+        bot.send_chat_action(message.chat.id, "typing")
+        bot.reply_to(message, "🎙️ He recibido tu mensaje de voz. Transcribiéndolo... ⏳")
+
+        # Descargar el archivo de voz desde Telegram
+        file_info = bot.get_file(message.voice.file_id)
+        audio = bot.download_file(file_info.file_path)
+
+        # Guardar temporalmente
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".ogg") as temp_audio:
+            temp_audio.write(audio)
+            temp_audio_path = temp_audio.name
+
+        # Enviar el audio al cliente Groq (Whisper) para transcripción
+        with open(temp_audio_path, "rb") as f:
+            transcription = cliente_groq.audio.transcriptions.create(
+                file=(os.path.basename(temp_audio_path), f.read()),
+                model="whisper-large-v3-turbo",
+                response_format="text",
+                language="es"
+            )
+
+        # Limpieza del archivo temporal
+        os.remove(temp_audio_path)
+
+        # transcription viene como texto plano (según cliente)
+        texto_transcrito = transcription.strip()
+
+        if not texto_transcrito:
+            bot.reply_to(message, "❌ No pude entender el audio, probá de nuevo 😉")
+            return
+
+        # Reutilizamos la función existente de análisis de texto
+        resultado_sentimiento = analizar_sentimiento(texto_transcrito)
+
+        respuesta = (
+            f"🗣 **Transcripción del audio:**\n_{texto_transcrito}_\n\n"
+            f"{resultado_sentimiento}"
+        )
+
+        bot.reply_to(message, respuesta, parse_mode="Markdown")
+
+    except Exception as e:
+        print(f"Error al procesar el audio: {e}")
+        bot.reply_to(message, "❌ Ocurrió un error al procesar el mensaje de voz.")
 
 @bot.message_handler(content_types=['text'])
 def analizar_mensaje_texto(message):
