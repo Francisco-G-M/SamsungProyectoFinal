@@ -11,7 +11,6 @@ faq_manager = FaqManager()
 
 @bot.message_handler(commands=['start', 'help'])
 def cmd_welcome(message):
-    # --- CORRECCIÓN: Se quitó parse_mode='Markdown' ---
     texto_bienvenida = """
 ¡Hola! 👋
 Soy un bot multifunción.
@@ -28,7 +27,7 @@ Soy un bot multifunción.
 
 ¡Pruebame!
 """
-    bot.reply_to(message, texto_bienvenida) # <--- ¡ARREGLADO!
+    bot.reply_to(message, texto_bienvenida)
 
 @bot.message_handler(commands=['faq'])
 def random_faq(message):
@@ -52,7 +51,7 @@ def random_faq(message):
             f"{respuesta}"
         )
         
-        bot.reply_to(message, respuesta_faq) # <--- ¡ARREGLADO!
+        bot.reply_to(message, respuesta_faq)
     
     else:
         bot.reply_to(message, "Disculpa, el banco de preguntas de fútbol no está disponible. Revisa si dataset.json existe y es válido.")
@@ -63,7 +62,7 @@ def info_transmision(message):
     
     info = faq_manager.get_transmision_info()
     
-    bot.reply_to(message, info) # <--- ¡ARREGLADO!
+    bot.reply_to(message, info)
 
 @bot.message_handler(commands=['analizar'])
 def cmd_analizar_sentimiento(message):
@@ -76,7 +75,7 @@ def cmd_analizar_sentimiento(message):
     except IndexError:
         texto_ayuda = "Por favor, escribe el texto que quieres analizar después del comando.\n\n"
         texto_ayuda += "Ejemplo: /analizar ¡Qué buen servicio!"
-        bot.reply_to(message, texto_ayuda) # <--- ¡ARREGLADO!
+        bot.reply_to(message, texto_ayuda)
         return
 
     bot.send_chat_action(message.chat.id, 'typing')
@@ -104,7 +103,7 @@ def responder_foto(message):
         
         if descripcion:
             respuesta = f"Descripción de la imagen:\n\n{descripcion}"
-            bot.reply_to(message, respuesta) # <--- ¡ARREGLADO!
+            bot.reply_to(message, respuesta)
         else:
             bot.reply_to(message, "❌ No pude analizar la imagen. Por favor, intenta con otra imagen.")
             
@@ -138,7 +137,7 @@ def responder_preguntas_dataset(message):
             f"RESPUESTA\n"
             f"{respuesta}"
         )
-        bot.reply_to(message, respuesta_faq) # <--- ¡ARREGLADO!
+        bot.reply_to(message, respuesta_faq)
         
     else:
         texto_ayuda = (
@@ -149,7 +148,7 @@ def responder_preguntas_dataset(message):
             "/analizar [tu texto] - Analizo el sentimiento.\n\n"
             "O puedes enviarme una foto."
         )
-        bot.reply_to(message, texto_ayuda) # <--- ¡ARREGLADO!
+        bot.reply_to(message, texto_ayuda)
 
 
 if __name__ == "__main__":
