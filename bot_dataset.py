@@ -77,3 +77,23 @@ class FaqManager:
             "Recuerda que estas señales son premium y requieren una suscripción adicional."
         )
         return info
+    
+    def buscar_respuesta(self, texto_usuario):
+        """
+        Busca una respuesta en el dataset comparando el texto del usuario
+        con las preguntas del archivo JSON. Devuelve la respuesta si encuentra coincidencia.
+        """
+        texto_usuario = texto_usuario.lower()
+
+        for item in self.faq_data:
+            # Soporta tanto claves 'pregunta' como 'question'
+            pregunta = item.get('pregunta') or item.get('question')
+            respuesta = item.get('respuesta') or item.get('answer')
+
+            if pregunta and respuesta:
+                # Coincidencia simple: si la pregunta del dataset está dentro del texto del usuario
+                if pregunta.lower() in texto_usuario:
+                    return respuesta
+
+        return None
+    
