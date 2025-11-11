@@ -112,7 +112,10 @@ def manejar_voz(message):
             )
 
         os.remove(temp_audio_path)
-        texto_transcrito = transcription.strip()
+
+        # Asegura compatibilidad con distintos formatos de respuesta
+        texto_transcrito = transcription.strip() if isinstance(transcription, str) else getattr(transcription, 'text', '') or ''
+        print(f"[DEBUG] Transcripción: {texto_transcrito}")  # 👀 se muestra en consola
 
         if not texto_transcrito:
             bot.reply_to(message, "❌ No pude entender el audio, probá de nuevo 😉")
@@ -131,7 +134,11 @@ def manejar_voz(message):
             else:
                 respuesta_final = "❌ No pude responder a tu pregunta 😅"
 
-        bot.reply_to(message, f"🗣 **Transcripción:**\n_{texto_transcrito}_\n\n{respuesta_final}", parse_mode="Markdown")
+        bot.reply_to(
+            message,
+            f"🗣 **Transcripción:**\n_{texto_transcrito}_\n\n{respuesta_final}",
+            parse_mode="Markdown"
+        )
 
     except Exception as e:
         print(f"Error al procesar el audio: {e}")

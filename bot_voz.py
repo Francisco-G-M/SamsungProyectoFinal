@@ -21,15 +21,15 @@ bot = tlb.TeleBot(TELEGRAM_BOT_TOKEN)
 groq_client = Groq(api_key=GROQ_API_KEY)
 
 # Cargar dataset local
-def load_futbol_data():
+def load_dataset():
     try:
-        with open("futbol_data.json", "r", encoding="utf-8") as f:
+        with open("dataset.json", "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception as e:
         print(f"Error al cargar JSON: {e}")
         return None
 
-futbol_data = load_futbol_data()
+dataset = load_dataset()
 
 # Obtener respuesta con IA Groq
 def get_groq_response(user_message: str) -> Optional[str]:
@@ -39,7 +39,7 @@ Sos un asistente virtual futbolero argentino 🇦🇷 llamado FutbolBot ⚽🔥.
 Respondé con tono pasional, amistoso y natural sobre fútbol.
 
 Usá la siguiente info como base:
-{json.dumps(futbol_data, ensure_ascii=False, indent=2)}
+{json.dumps(load_dataset, ensure_ascii=False, indent=2)}
 
 Reglas:
 1. Usá info del dataset si existe.
@@ -96,7 +96,7 @@ def transcribe_voice_with_groq(message: tlb.types.Message) -> Optional[str]:
 # /start
 @bot.message_handler(commands=['start'])
 def send_welcome(message: tlb.types.Message):
-    if not futbol_data:
+    if not dataset:
         bot.reply_to(message, "⚠️ Error al cargar datos de fútbol.")
         return
 
@@ -107,7 +107,7 @@ def send_welcome(message: tlb.types.Message):
 # Mensajes de texto
 @bot.message_handler(content_types=['text'])
 def handle_text_message(message: tlb.types.Message):
-    if not futbol_data:
+    if not dataset:
         bot.reply_to(message, "⚠️ Error al cargar datos de fútbol.")
         return
 
@@ -118,7 +118,7 @@ def handle_text_message(message: tlb.types.Message):
 # Mensajes de voz
 @bot.message_handler(content_types=['voice'])
 def handle_voice_message(message: tlb.types.Message):
-    if not futbol_data:
+    if not dataset:
         bot.reply_to(message, "⚠️ Error al cargar datos de fútbol.")
         return
 
@@ -133,7 +133,7 @@ def handle_voice_message(message: tlb.types.Message):
 
 # Iniciar bot
 if __name__ == "__main__":
-    if futbol_data:
+    if dataset:
         print("🤖 FutbolBot iniciado con Groq y Whisper 🎙️⚽")
         while True:
             try:
