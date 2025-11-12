@@ -2,14 +2,14 @@ import telebot
 from bot_setup import bot
 from bot_dataset import FaqManager
 from bot_functions import (
-    analizar_sentimiento, 
     imagen_a_base64, 
     describir_imagen_con_groq
 )
+from Transformers.analisis_sentimiento.core import analizar_sentimiento
 
 faq_manager = FaqManager()
 
-@bot.message_handler(commands=['start', 'help'])
+@bot.message_handler(commands=['start'])
 def cmd_welcome(message):
     texto_bienvenida = """
 ¡Hola! 👋
@@ -28,6 +28,33 @@ Soy un bot multifunción.
 ¡Pruebame!
 """
     bot.reply_to(message, texto_bienvenida)
+    
+@bot.message_handler(commands=['help'])
+def cmd_help(message):
+    texto_ayuda = """
+🤖 Lista de comandos y funciones:
+
+🔹 /start
+Muestra el mensaje de bienvenida.
+
+🔹 /help
+Muestra esta lista de ayuda.
+
+🔹 /analizar [tu texto]
+Analiza el sentimiento del texto.
+
+🔹 /faq
+Pregunta aleatoria de fútbol argentino.
+
+🔹 /transmision
+Info sobre dónde ver los partidos.
+
+---
+Funciones sin comando:
+📸 Envía una imagen para que la describa.
+❓ Escribe una pregunta de fútbol para buscarla.
+"""
+    bot.reply_to(message, texto_ayuda)
 
 @bot.message_handler(commands=['faq'])
 def random_faq(message):
