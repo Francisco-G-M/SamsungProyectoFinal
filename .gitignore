@@ -2,13 +2,14 @@
 /entorno/
 /venv/
 /env/
+entorno-transformers
 
 # 2. Claves e información privada
 .env
 
 # 3. Archivos del proyecto (a ignorar)
 /dataset.json
-/Transformers/
+# La línea /Transformers/ se elimina para incluir tu código
 
 # 4. Archivos de caché y temporales de Python
 __pycache__/
