@@ -1,7 +1,5 @@
 ⚽ FUTBOLBOT IA: Tu Asistente Inteligente de Fútbol
 
-Propósito: Ser un asistente futbolero inteligente que entiende emociones, responde consultas y acerca la tecnología de IA al fanático del fútbol argentino.
-
 1) Propósito del chatbot
 FUTBOLBOT IA es un proyecto de Capstone que busca ser un asistente futbolero inteligente diseñado para el hincha. Nuestro objetivo es entender emociones, responder consultas sobre equipos locales, analizar audios e imágenes, y acercar la tecnología de IA al fanático del fútbol argentino de una manera natural y divertida.
 
@@ -24,6 +22,8 @@ Reconocimiento de Voz: Permite la interacción convirtiendo los audios de los us
 
 Análisis de Emociones: Una función clave para analizar las emociones del usuario.
 
+Capacidad de respuesta: El bot responde en base a un dataset de 15mil preguntas. 
+
 4) Comandos del chatBot en Telegram:
 
 /start -> Este comando se utiliza para iniciar el chat del bot. Aparecera un mensaje de presentación con todos los comandos que el usuario de Telegram puede utilizar en el chat, los cuales son:
@@ -37,6 +37,7 @@ Análisis de Emociones: Una función clave para analizar las emociones del usuar
  En el caso de que se le pase una imagen, el bot devolvera un analisis de la imagen proporcionada.
 
 5) Creatividad e Innovación
+
 Punto Clave: Combina tres tipos de IA (texto, voz, imagen) en un solo bot.
 
 Integrar las capacidades de IA para texto, voz e imagen en una única experiencia.
@@ -44,6 +45,7 @@ Integrar las capacidades de IA para texto, voz e imagen en una única experienci
 Su capacidad para analizar y responder a las emociones del usuario.
 
 6) Impacto Potencial y Escalabilidad
+
 Enfoque: Diseño pensado para la expansión y la integración con sistemas externos.
 
 Adaptabilidad: Puede ampliarse a distintos clubes o selecciones más allá del enfoque local inicial.
