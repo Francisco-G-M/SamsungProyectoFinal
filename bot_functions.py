@@ -1,20 +1,5 @@
 import base64
-from bot_setup import cliente_groq, analizador_de_sentimiento
-
-def analizar_sentimiento(frase):
-    resultados = analizador_de_sentimiento(frase)[0]
-    sentimiento = resultados['label']
-    confianza = resultados['score']
-    
-    emoji = ""
-    if sentimiento == "Positivo":
-        emoji = "👍"
-    elif sentimiento == "Negativo":
-        emoji = "👎"
-    elif sentimiento == "Neutral":
-        emoji = "🤔"
-        
-    return f"Sentimiento: {sentimiento} {emoji}\nConfianza: {confianza:.2f}%"
+from bot_setup import cliente_groq
 
 def imagen_a_base64(ruta_o_bytes_imagen):
     try:

@@ -1,6 +1,5 @@
 import os
 import telebot
-from transformers import pipeline
 from groq import Groq
 from dotenv import load_dotenv
 
@@ -20,10 +19,3 @@ bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 
 print("🤖 Conectando con Groq...")
 cliente_groq = Groq(api_key=CLAVE_API_GROQ)
-
-print("Cargando el modelo de análisis de sentimiento...")
-analizador_de_sentimiento = pipeline(
-    "sentiment-analysis",
-    model="pysentimiento/robertuito-sentiment-analysis"
-)
-print("Modelo de sentimiento cargado con éxito.")
