@@ -12,7 +12,8 @@ Diseño de Conversación Fluida: Acepta comandos claros a través de voz, imagen
 
 Interacción Natural: El bot contesta con mensajes cortos y directos.
 
-3) Aplicación de Inteligencia Artificial (Uso de Tecnología)
+3) Aplicación de Inteligencia Artificial
+
 Enfoque: Combinar múltiples tecnologías de IA para una experiencia integral.
 
 Los tres pilares de IA en FUTBOLBOT son:
@@ -23,14 +24,26 @@ Reconocimiento de Voz: Permite la interacción convirtiendo los audios de los us
 
 Análisis de Emociones: Una función clave para analizar las emociones del usuario.
 
-4) Creatividad e Innovación
-Punto Clave: Combinar tres tipos de IA (texto, voz, imagen) en un solo bot.
+4) Comandos del chatBot en Telegram:
+
+/start -> Este comando se utiliza para iniciar el chat del bot. Aparecera un mensaje de presentación con todos los comandos que el usuario de Telegram puede utilizar en el chat, los cuales son:
+
+ /faq -> Este comando se utiliza para que el bot tome un par pregunta y respuesta aleatoria de su dataset, y se lo muestre al usuario vía chat.
+
+ /transmision -> Este comando se utiliza para que el bot muestre una mensaje de canales recomendados para ver la mayoría de los partidos.
+
+ /analizar -> Este comando se utiliza junto con un mensaje, e.j: /analizar Buenos Dias. El bot devolvera un mensaje indicanco el sentimiento principal del mensaje junto con el porcentaje del mismo presente en el mensaje, e.j: /analizar Buenos Dias devuelve un sentimiento Neutral y un porcentaje de 0.52%
+
+ En el caso de que se le pase una imagen, el bot devolvera un analisis de la imagen proporcionada.
+
+5) Creatividad e Innovación
+Punto Clave: Combina tres tipos de IA (texto, voz, imagen) en un solo bot.
 
 Integrar las capacidades de IA para texto, voz e imagen en una única experiencia.
 
 Su capacidad para analizar y responder a las emociones del usuario.
 
-5) Impacto Potencial y Escalabilidad
+6) Impacto Potencial y Escalabilidad
 Enfoque: Diseño pensado para la expansión y la integración con sistemas externos.
 
 Adaptabilidad: Puede ampliarse a distintos clubes o selecciones más allá del enfoque local inicial.

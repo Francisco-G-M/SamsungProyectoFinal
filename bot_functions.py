@@ -7,11 +7,11 @@ def analizar_sentimiento(frase):
     confianza = resultados['score']
     
     emoji = ""
-    if sentimiento == "POS":
+    if sentimiento == "Positivo":
         emoji = "👍"
-    elif sentimiento == "NEG":
+    elif sentimiento == "Negativo":
         emoji = "👎"
-    elif sentimiento == "NEU":
+    elif sentimiento == "Neutral":
         emoji = "🤔"
         
     return f"Sentimiento: {sentimiento} {emoji}\nConfianza: {confianza:.2f}%"
