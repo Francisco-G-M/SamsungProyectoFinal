@@ -40,7 +40,9 @@ Con el entorno activado (entorno-virtual) y las dependencias instaladas, puedes 
 """
 
 1) Propósito del chatbot
-FUTBOLBOT IA es un proyecto de Capstone que busca ser un asistente futbolero inteligente diseñado para el hincha. Nuestro objetivo es entender emociones, responder consultas sobre equipos locales, analizar audios e imágenes, y acercar la tecnología de IA al fanático del fútbol argentino de una manera natural y divertida.
+FUTBOLBOT IA es un proyecto de Capstone que busca ser un asistente futbolero inteligente diseñado para el hincha. Nuestro objetivo es entender emociones, 
+responder consultas sobre equipos locales, analizar audios e imágenes, 
+y acercar la tecnología de IA al fanático del fútbol argentino de una manera natural y divertida.
 
 2) Funcionalidad y Experiencia de Uso
 Enfoque: Lograr una interacción natural y fluida.
