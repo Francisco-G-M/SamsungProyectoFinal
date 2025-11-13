@@ -16,6 +16,23 @@ def imagen_a_base64(ruta_o_bytes_imagen):
 
 def describir_imagen_con_groq(imagen_base64):
     try:
+        # --- ¡PROMPT MEJORADO PARA MÁXIMO DETALLE! ---
+        # Le damos un rol dual (experto en fútbol + crítico visual)
+        # y una estructura de 4 pasos para forzarlo a ser detallado.
+        prompt_experto_detallado = """
+        Sos un experto en fútbol argentino 🇦🇷⚽ y un analista visual.
+        Tu tarea es describir esta imagen con un nivel de detalle **excepcional y minucioso**.
+
+        Desglosá tu descripción en estos 4 puntos:
+
+        1.  **Contexto General:** ¿Qué es esta imagen? ¿Dónde parece estar tomada? (Ej: un estadio, una cancha, la calle, una captura de pantalla). ¿Qué ambiente se percibe?
+        2.  **Sujetos y Acción:** Describe los elementos o personas centrales. ¿Qué están haciendo? ¿Qué ropa llevan? ¿Cómo es su expresión?
+        3.  **DETALLE CRÍTICO (FÚTBOL):** PRESTÁ MÁXIMA ATENCIÓN. Si ves un escudo, logo de equipo (Boca, River, etc.), o camiseta de fútbol, identificalo y nombralo CLARAMENTE.
+        4.  **Detalles de Fondo y Composición:** Describe los elementos secundarios. Menciona colores predominantes, cualquier texto que sea legible, y otros objetos en el fondo.
+
+        Por favor, sé lo más descriptivo y completo posible en tu respuesta.
+        """
+        
         completado_chat = cliente_groq.chat.completions.create(
             messages=[
                 {
@@ -23,7 +40,8 @@ def describir_imagen_con_groq(imagen_base64):
                     "content": [
                         {
                             "type": "text",
-                            "text": "Por favor, describe esta imagen de manera detallada y clara en español."
+                            # Usamos el nuevo prompt súper detallado
+                            "text": prompt_experto_detallado 
                         },
                         {
                             "type": "image_url",
@@ -34,9 +52,9 @@ def describir_imagen_con_groq(imagen_base64):
                     ]
                 }
             ],
-            model="meta-llama/llama-4-scout-17b-16e-instruct", 
-            temperature=0.7,
-            max_tokens=1000
+            model="meta-llama/llama-4-scout-17b-16e-instruct", #
+            temperature=0.7, #
+            max_tokens=1000 #
         )
         return completado_chat.choices[0].message.content
         
