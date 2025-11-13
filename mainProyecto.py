@@ -1,11 +1,12 @@
-import telebot
-from bot_setup import bot
-from bot_dataset import FaqManager
+from bot_setup import bot, analizador_de_sentimiento, cliente_groq, get_groq_response
+from bot_dataset import FaqManager 
 from bot_functions import (
     analizar_sentimiento, 
     imagen_a_base64, 
     describir_imagen_con_groq
 )
+import os
+import tempfile
 
 faq_manager = FaqManager()
 
@@ -110,6 +111,63 @@ def responder_foto(message):
     except Exception as e:
         print(f"Error al procesar la imagen: {e}")
         bot.reply_to(message, "❌ Ocurrió un error al procesar tu imagen. Intenta de nuevo.")
+
+@bot.message_handler(content_types=['voice'])
+def manejar_voz(message):
+    try:
+        bot.send_chat_action(message.chat.id, "typing")
+        bot.reply_to(message, "🎙️ He recibido tu mensaje de voz. Transcribiéndolo... ⏳")
+
+        # Descargar el archivo de voz
+        file_info = bot.get_file(message.voice.file_id)
+        audio = bot.download_file(file_info.file_path)
+
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".ogg") as temp_audio:
+            temp_audio.write(audio)
+            temp_audio_path = temp_audio.name
+
+        # 🔹 Transcripción con Groq Whisper
+        with open(temp_audio_path, "rb") as f:
+            transcription = cliente_groq.audio.transcriptions.create(
+                file=(os.path.basename(temp_audio_path), f.read()),
+                model="whisper-large-v3-turbo",
+                response_format="text",
+                language="es"
+            )
+
+        os.remove(temp_audio_path)
+
+        # Asegura compatibilidad con distintos formatos de respuesta
+        texto_transcrito = transcription.strip() if isinstance(transcription, str) else getattr(transcription, 'text', '') or ''
+        print(f"[DEBUG] Transcripción: {texto_transcrito}")  # 👀 se muestra en consola
+
+        if not texto_transcrito:
+            bot.reply_to(message, "❌ No pude entender el audio, probá de nuevo 😉")
+            return
+
+        # 🔹 Buscar respuesta en dataset (FAQ)
+        respuesta_dataset = faq_manager.buscar_respuesta(texto_transcrito) if hasattr(faq_manager, 'buscar_respuesta') else None
+
+        if respuesta_dataset:
+            respuesta_final = f"🎯 {respuesta_dataset}"
+        else:
+            # 🔹 Si no hay respuesta exacta, usar Groq para responder
+            respuesta_groq = get_groq_response(texto_transcrito)
+            if respuesta_groq:
+                respuesta_final = f"🤖 {respuesta_groq}"
+            else:
+                respuesta_final = "❌ No pude responder a tu pregunta 😅"
+
+        bot.reply_to(
+            message,
+            f"🗣 **Transcripción:**\n_{texto_transcrito}_\n\n{respuesta_final}",
+            parse_mode="Markdown"
+        )
+
+    except Exception as e:
+        print(f"Error al procesar el audio: {e}")
+        bot.reply_to(message, "❌ Ocurrió un error al procesar el mensaje de voz.")
+
 
 @bot.message_handler(content_types=['text'])
 def responder_preguntas_dataset(message):

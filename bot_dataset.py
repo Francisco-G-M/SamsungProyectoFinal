@@ -73,6 +73,7 @@ class FaqManager:
         return info
 
     def get_transmision_info(self):
+
         return self.transmision_info
 
     # --- FUNCIÓN DE NORMALIZACIÓN AÑADIDA ---
