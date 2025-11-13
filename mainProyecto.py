@@ -7,8 +7,6 @@ import telebot
 import os
 import tempfile 
 
-#  Comandos principales
-
 @bot.message_handler(commands=['start'])
 def cmd_welcome(message):
     texto_bienvenida = """
@@ -20,7 +18,8 @@ Soy un bot multifunción.
 1. /analizar Sentimiento: Envía un mensaje de texto y te diré si es positivo, negativo o neutral.
     (Debes escribir el comando seguido del texto. Ej: /analizar me encanta esto)
 2. Describe Imagen: Envía una imagen y te daré una descripción detallada.
-3. Fútbol Argentino 🇦🇷 :
+3. Mensajes de Voz 🎙️: ¡Envíame un audio con tu consulta y te responderé!
+4. Fútbol Argentino 🇦🇷 :
     * Usa /faq para una pregunta aleatoria de fútbol.
     * Usa /transmision para saber dónde ver los partidos.
     * Usa /help para ver todos mis comandos.
@@ -29,7 +28,7 @@ Soy un bot multifunción.
 ¡Pruebame!
 """
     bot.reply_to(message, texto_bienvenida)
-    
+
 @bot.message_handler(commands=['help'])
 def cmd_help(message):
     texto_ayuda = """
@@ -53,21 +52,26 @@ Info sobre dónde ver los partidos.
 ---
 Funciones sin comando:
 📸 Envía una imagen para que la describa.
+🎙️ Envía un mensaje de voz y te responderé.
 ❓ Escribe una pregunta de fútbol para buscarla.
 """
     bot.reply_to(message, texto_ayuda)
 
-
 @bot.message_handler(commands=['faq'])
 def responder_faq(mensaje):
     """
-    Muestra las preguntas frecuentes del dataset.
+    Muestra una pregunta frecuente aleatoria del dataset.
     """
-    faqs = faq_manager.obtener_faqs()
-    respuesta = "📚 *Preguntas frecuentes:*\n\n"
-    for pregunta, respuesta_texto in faqs.items():
-        respuesta += f"🔹 *{pregunta}*\n{respuesta_texto}\n\n"
-    bot.send_message(mensaje.chat.id, respuesta, parse_mode="Markdown")
+    faq_aleatoria = faq_manager.get_random_faq()
+    
+    if faq_aleatoria:
+        pregunta = faq_aleatoria.get('pregunta', 'N/A')
+        respuesta_texto = faq_aleatoria.get('respuesta', 'N/A')
+        
+        respuesta = f"📚 *Pregunta Aleatoria:*\n\n🔹 *{pregunta}*\n{respuesta_texto}\n"
+        bot.send_message(mensaje.chat.id, respuesta, parse_mode="Markdown")
+    else:
+        bot.send_message(mensaje.chat.id, "❌ No pude encontrar preguntas en el dataset.")
 
 
 @bot.message_handler(commands=['analizar'])
@@ -83,22 +87,13 @@ def comando_analizar_sentimiento(mensaje):
     resultado = analizar_sentimiento(texto)
     bot.send_message(mensaje.chat.id, f"🧠 Análisis de sentimiento: {resultado}")
 
-
 @bot.message_handler(commands=['transmision'])
 def info_transmision(mensaje):
     """
-    Simula información de transmisión de fútbol.
+    Muestra información general sobre canales de transmisión.
     """
-    respuesta = (
-        "🎙️ *Transmisión en vivo:* River Plate vs. Boca Juniors\n"
-        "🏟️ Estadio Monumental\n"
-        "⏰ Domingo 18:00 hs\n"
-        "📺 TV Pública / ESPN\n\n"
-        "🔥 ¡Viví la pasión del fútbol argentino!"
-    )
+    respuesta = faq_manager.get_transmision_info()
     bot.send_message(mensaje.chat.id, respuesta, parse_mode="Markdown")
-
-# Handler de mensajes de voz
 
 @bot.message_handler(content_types=['voice'])
 def manejar_audio(mensaje):
@@ -108,15 +103,13 @@ def manejar_audio(mensaje):
     try:
         archivo_voz = bot.get_file(mensaje.voice.file_id)
         archivo_descargado = bot.download_file(archivo_voz.file_path)
-
-        # Guardar el audio temporalmente
+        
         with tempfile.NamedTemporaryFile(delete=False, suffix=".ogg") as temp_audio:
             temp_audio.write(archivo_descargado)
             temp_audio_path = temp_audio.name
 
         bot.reply_to(mensaje, "🎙️ Procesando tu mensaje de voz, dame un momento...")
 
-        # Transcripción con Groq (Whisper)
         with open(temp_audio_path, "rb") as f:
             transcripcion = cliente_groq.audio.transcriptions.create(
                 model="whisper-large-v3",
@@ -128,12 +121,10 @@ def manejar_audio(mensaje):
         texto_transcripto = transcripcion.strip()
         print(f"🗣️ Texto transcripto: {texto_transcripto}")
 
-        # Buscar respuesta en dataset
         respuesta_dataset = faq_manager.buscar_respuesta(texto_transcripto)
         if respuesta_dataset:
             bot.send_message(mensaje.chat.id, f"⚽ {respuesta_dataset}")
         else:
-            # Si no hay coincidencia, generar respuesta con Groq
             respuesta_groq = get_groq_response(texto_transcripto)
             bot.send_message(mensaje.chat.id, respuesta_groq)
 
@@ -143,8 +134,6 @@ def manejar_audio(mensaje):
         print(f"Error procesando el audio: {e}")
         bot.reply_to(mensaje, "❌ Ocurrió un error procesando tu mensaje de voz 😅")
 
-# Handler de imágenes
-
 @bot.message_handler(content_types=['photo'])
 def manejar_imagen(mensaje):
     """
@@ -153,11 +142,9 @@ def manejar_imagen(mensaje):
     try:
         bot.reply_to(mensaje, "📸 Analizando tu imagen, esperá un momento...")
 
-        # Descargar la foto
         archivo = bot.get_file(mensaje.photo[-1].file_id)
         imagen = bot.download_file(archivo.file_path)
 
-        # Describir con Groq
         from bot_functions import imagen_a_base64
         imagen_base64 = imagen_a_base64(imagen)
         descripcion = describir_imagen_con_groq(imagen_base64)
@@ -168,8 +155,6 @@ def manejar_imagen(mensaje):
         print(f"Error procesando imagen: {e}")
         bot.send_message(mensaje.chat.id, "❌ Ocurrió un error al analizar la imagen.")
 
-# Handler de texto general
-
 @bot.message_handler(content_types=['text'])
 def manejar_texto(mensaje):
     """
@@ -178,20 +163,15 @@ def manejar_texto(mensaje):
     texto = mensaje.text.strip()
     print(f"📩 Mensaje recibido: {texto}")
 
-    # Buscar respuesta en dataset
     respuesta_dataset = faq_manager.buscar_respuesta(texto)
     if respuesta_dataset:
         bot.send_message(mensaje.chat.id, f"⚽ {respuesta_dataset}")
     else:
-        # Analizar sentimiento
         sentimiento = analizar_sentimiento(texto)
         print(f"🧠 Sentimiento: {sentimiento}")
 
-        # Respuesta generada por Groq
         respuesta = get_groq_response(texto)
         bot.send_message(mensaje.chat.id, respuesta)
-
-# Iniciar el bot
 
 if __name__ == "__main__":
     print("🤖 Bot Futbolero en ejecución...")
