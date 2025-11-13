@@ -1,16 +1,15 @@
-from bot_setup import bot, analizador_de_sentimiento, cliente_groq, get_groq_response
-from bot_dataset import FaqManager 
-from bot_functions import (
-    analizar_sentimiento, 
-    imagen_a_base64, 
-    describir_imagen_con_groq
-)
+from bot_setup import bot, cliente_groq, get_groq_response
+from bot_dataset import faq_manager
+from bot_functions import describir_imagen_con_groq
+from Transformers.analisis_sentimiento.core import analizar_sentimiento
+
+import telebot
 import os
 import tempfile
 
-faq_manager = FaqManager()
+#  Comandos principales
 
-@bot.message_handler(commands=['start', 'help'])
+@bot.message_handler(commands=['start'])
 def cmd_welcome(message):
     texto_bienvenida = """
 ¡Hola! 👋
@@ -30,189 +29,142 @@ Soy un bot multifunción.
 """
     bot.reply_to(message, texto_bienvenida)
 
+
 @bot.message_handler(commands=['faq'])
-def random_faq(message):
-    bot.send_chat_action(message.chat.id, 'typing')
+def responder_faq(mensaje):
+    """
+    Muestra las preguntas frecuentes del dataset.
+    """
+    faqs = faq_manager.obtener_faqs()
+    respuesta = "📚 *Preguntas frecuentes:*\n\n"
+    for pregunta, respuesta_texto in faqs.items():
+        respuesta += f"🔹 *{pregunta}*\n{respuesta_texto}\n\n"
+    bot.send_message(mensaje.chat.id, respuesta, parse_mode="Markdown")
 
-    pregunta_aleatoria = faq_manager.get_random_faq()
-    
-    if pregunta_aleatoria:
-        categoria = pregunta_aleatoria['categoria']
-        pregunta = pregunta_aleatoria['pregunta']
-        respuesta = pregunta_aleatoria['respuesta']
-        
-        if "Error: Clave" in pregunta or "Error: Clave" in respuesta:
-             bot.reply_to(message, "❌ Disculpa, el formato de la pregunta seleccionada es irrecuperable. Intenta de nuevo o revisa tu dataset.json.")
-             return
-
-        respuesta_faq = (
-            f"PREGUNTA (Categoría: {categoria})\n"
-            f"{pregunta}\n\n"
-            f"RESPUESTA\n"
-            f"{respuesta}"
-        )
-        
-        bot.reply_to(message, respuesta_faq)
-    
-    else:
-        bot.reply_to(message, "Disculpa, el banco de preguntas de fútbol no está disponible. Revisa si dataset.json existe y es válido.")
-
-@bot.message_handler(commands=['transmision'])
-def info_transmision(message):
-    bot.send_chat_action(message.chat.id, 'typing')
-    
-    info = faq_manager.get_transmision_info()
-    
-    bot.reply_to(message, info)
 
 @bot.message_handler(commands=['analizar'])
-def cmd_analizar_sentimiento(message):
+def comando_analizar_sentimiento(mensaje):
     """
-    Analiza el sentimiento del texto que sigue al comando /analizar.
+    Analiza el sentimiento del texto del usuario.
     """
-    try:
-        texto_a_analizar = message.text.split(maxsplit=1)[1]
-    
-    except IndexError:
-        texto_ayuda = "Por favor, escribe el texto que quieres analizar después del comando.\n\n"
-        texto_ayuda += "Ejemplo: /analizar ¡Qué buen servicio!"
-        bot.reply_to(message, texto_ayuda)
+    texto = mensaje.text.replace("/analizar", "").strip()
+    if not texto:
+        bot.send_message(mensaje.chat.id, "✍️ Escribí algo después de /analizar para evaluar el sentimiento.")
         return
 
-    bot.send_chat_action(message.chat.id, 'typing')
-    resultado = analizar_sentimiento(texto_a_analizar)
-    bot.reply_to(message, resultado)
+    resultado = analizar_sentimiento(texto)
+    bot.send_message(mensaje.chat.id, f"🧠 Análisis de sentimiento: {resultado}")
 
-@bot.message_handler(content_types=['photo'])
-def responder_foto(message):
-    
-    bot.reply_to(message, "📸 He recibido tu imagen. Analizándola... ⏳")
-    
-    try:
-        foto = message.photo[-1]
-        
-        info_archivo = bot.get_file(foto.file_id)
-        archivo_descargado = bot.download_file(info_archivo.file_path)
-        
-        imagen_base64 = imagen_a_base64(archivo_descargado)
-        
-        if not imagen_base64:
-            bot.reply_to(message, "❌ Error al procesar la imagen. Intenta de nuevo.")
-            return
-            
-        descripcion = describir_imagen_con_groq(imagen_base64)
-        
-        if descripcion:
-            respuesta = f"Descripción de la imagen:\n\n{descripcion}"
-            bot.reply_to(message, respuesta)
-        else:
-            bot.reply_to(message, "❌ No pude analizar la imagen. Por favor, intenta con otra imagen.")
-            
-    except Exception as e:
-        print(f"Error al procesar la imagen: {e}")
-        bot.reply_to(message, "❌ Ocurrió un error al procesar tu imagen. Intenta de nuevo.")
+
+@bot.message_handler(commands=['transmision'])
+def info_transmision(mensaje):
+    """
+    Simula información de transmisión de fútbol.
+    """
+    respuesta = (
+        "🎙️ *Transmisión en vivo:* River Plate vs. Boca Juniors\n"
+        "🏟️ Estadio Monumental\n"
+        "⏰ Domingo 18:00 hs\n"
+        "📺 TV Pública / ESPN\n\n"
+        "🔥 ¡Viví la pasión del fútbol argentino!"
+    )
+    bot.send_message(mensaje.chat.id, respuesta, parse_mode="Markdown")
+
+# Handler de mensajes de voz
 
 @bot.message_handler(content_types=['voice'])
-def manejar_voz(message):
+def manejar_audio(mensaje):
+    """
+    Descarga, transcribe y responde mensajes de voz con Groq.
+    """
     try:
-        bot.send_chat_action(message.chat.id, "typing")
-        bot.reply_to(message, "🎙️ He recibido tu mensaje de voz. Transcribiéndolo... ⏳")
+        archivo_voz = bot.get_file(mensaje.voice.file_id)
+        archivo_descargado = bot.download_file(archivo_voz.file_path)
 
-        # Descargar el archivo de voz
-        file_info = bot.get_file(message.voice.file_id)
-        audio = bot.download_file(file_info.file_path)
-
+        # Guardar el audio temporalmente
         with tempfile.NamedTemporaryFile(delete=False, suffix=".ogg") as temp_audio:
-            temp_audio.write(audio)
+            temp_audio.write(archivo_descargado)
             temp_audio_path = temp_audio.name
 
-        # 🔹 Transcripción con Groq Whisper
+        bot.reply_to(mensaje, "🎙️ Procesando tu mensaje de voz, dame un momento...")
+
+        # Transcripción con Groq (Whisper)
         with open(temp_audio_path, "rb") as f:
-            transcription = cliente_groq.audio.transcriptions.create(
-                file=(os.path.basename(temp_audio_path), f.read()),
-                model="whisper-large-v3-turbo",
-                response_format="text",
-                language="es"
+            transcripcion = cliente_groq.audio.transcriptions.create(
+                model="whisper-large-v3",
+                file=(os.path.basename(temp_audio_path), f),
+                prompt="Transcribí este audio en español de manera natural y clara.",
+                response_format="text"
             )
+
+        texto_transcripto = transcripcion.strip()
+        print(f"🗣️ Texto transcripto: {texto_transcripto}")
+
+        # Buscar respuesta en dataset
+        respuesta_dataset = faq_manager.buscar_respuesta(texto_transcripto)
+        if respuesta_dataset:
+            bot.send_message(mensaje.chat.id, f"⚽ {respuesta_dataset}")
+        else:
+            # Si no hay coincidencia, generar respuesta con Groq
+            respuesta_groq = get_groq_response(texto_transcripto)
+            bot.send_message(mensaje.chat.id, respuesta_groq)
 
         os.remove(temp_audio_path)
 
-        # Asegura compatibilidad con distintos formatos de respuesta
-        texto_transcrito = transcription.strip() if isinstance(transcription, str) else getattr(transcription, 'text', '') or ''
-        print(f"[DEBUG] Transcripción: {texto_transcrito}")  # 👀 se muestra en consola
+    except Exception as e:
+        print(f"Error procesando el audio: {e}")
+        bot.reply_to(mensaje, "❌ Ocurrió un error procesando tu mensaje de voz 😅")
 
-        if not texto_transcrito:
-            bot.reply_to(message, "❌ No pude entender el audio, probá de nuevo 😉")
-            return
+# Handler de imágenes
 
-        # 🔹 Buscar respuesta en dataset (FAQ)
-        respuesta_dataset = faq_manager.buscar_respuesta(texto_transcrito) if hasattr(faq_manager, 'buscar_respuesta') else None
+@bot.message_handler(content_types=['photo'])
+def manejar_imagen(mensaje):
+    """
+    Procesa imágenes y devuelve una descripción usando Groq.
+    """
+    try:
+        bot.reply_to(mensaje, "📸 Analizando tu imagen, esperá un momento...")
 
-        if respuesta_dataset:
-            respuesta_final = f"🎯 {respuesta_dataset}"
-        else:
-            # 🔹 Si no hay respuesta exacta, usar Groq para responder
-            respuesta_groq = get_groq_response(texto_transcrito)
-            if respuesta_groq:
-                respuesta_final = f"🤖 {respuesta_groq}"
-            else:
-                respuesta_final = "❌ No pude responder a tu pregunta 😅"
+        # Descargar la foto
+        archivo = bot.get_file(mensaje.photo[-1].file_id)
+        imagen = bot.download_file(archivo.file_path)
 
-        bot.reply_to(
-            message,
-            f"🗣 **Transcripción:**\n_{texto_transcrito}_\n\n{respuesta_final}",
-            parse_mode="Markdown"
-        )
+        # Describir con Groq
+        from bot_functions import imagen_a_base64
+        imagen_base64 = imagen_a_base64(imagen)
+        descripcion = describir_imagen_con_groq(imagen_base64)
+
+        bot.send_message(mensaje.chat.id, descripcion)
 
     except Exception as e:
-        print(f"Error al procesar el audio: {e}")
-        bot.reply_to(message, "❌ Ocurrió un error al procesar el mensaje de voz.")
+        print(f"Error procesando imagen: {e}")
+        bot.send_message(mensaje.chat.id, "❌ Ocurrió un error al analizar la imagen.")
 
+# Handler de texto general
 
 @bot.message_handler(content_types=['text'])
-def responder_preguntas_dataset(message):
-    
-    if message.text.startswith('/'):
-        bot.reply_to(message, "🤔 Comando no reconocido. Escribe /start para ver la lista de comandos.")
-        return 
+def manejar_texto(mensaje):
+    """
+    Responde texto: busca en dataset o genera respuesta con Groq.
+    """
+    texto = mensaje.text.strip()
+    print(f"📩 Mensaje recibido: {texto}")
 
-    bot.send_chat_action(message.chat.id, 'typing')
-    
-    resultado = faq_manager.buscar_respuesta(message.text)
-    
-    if resultado:
-        categoria = resultado.get('categoria', 'General')
-        pregunta = resultado.get('pregunta', 'N/A')
-        respuesta = resultado.get('respuesta', 'N/A')
-        
-        if "Error: Clave" in pregunta or "Error: Clave" in respuesta:
-             bot.reply_to(message, "❌ Disculpa, encontré la pregunta pero su formato es irrecuperable. Revisa tu dataset.json.")
-             return
-
-        respuesta_faq = (
-            f"PREGUNTA (Categoría: {categoria})\n"
-            f"{pregunta}\n\n"
-            f"RESPUESTA\n"
-            f"{respuesta}"
-        )
-        bot.reply_to(message, respuesta_faq)
-        
+    # Buscar respuesta en dataset
+    respuesta_dataset = faq_manager.buscar_respuesta(texto)
+    if respuesta_dataset:
+        bot.send_message(mensaje.chat.id, f"⚽ {respuesta_dataset}")
     else:
-        texto_ayuda = (
-            "🤔 Mmm, no encontré una respuesta exacta para eso en mi base de datos de fútbol.\n\n"
-            "Recuerda que puedes usar:\n"
-            "/faq - Pregunta aleatoria.\n"
-            "/transmision - Info de partidos.\n"
-            "/analizar [tu texto] - Analizo el sentimiento.\n\n"
-            "O puedes enviarme una foto."
-        )
-        bot.reply_to(message, texto_ayuda)
+        # Analizar sentimiento
+        sentimiento = analizar_sentimiento(texto)
+        print(f"🧠 Sentimiento: {sentimiento}")
 
+        # Respuesta generada por Groq
+        respuesta = get_groq_response(texto)
+        bot.send_message(mensaje.chat.id, respuesta)
+
+# Iniciar el bot
 
 if __name__ == "__main__":
-    print("Bot en funcionamiento...")
-    print("(Manejo de señales, imágenes, comandos y búsqueda en dataset...)")
-    try:
-        bot.polling(none_stop=True)
-    except Exception as e:
-        print(f"Error al iniciar el bot: {e}")
+    print("🤖 Bot Futbolero en ejecución...")
+    bot.infinity_polling()

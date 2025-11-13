@@ -133,3 +133,5 @@ class FaqManager:
         
         # Si termina el bucle y no encuentra nada, devuelve None
         return None
+
+faq_manager = FaqManager()
