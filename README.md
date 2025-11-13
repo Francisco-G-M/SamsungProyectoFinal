@@ -74,7 +74,9 @@ Capacidad de respuesta: El bot responde en base a un dataset de 15mil preguntas.
 
  /transmision -> Este comando se utiliza para que el bot muestre una mensaje de canales recomendados para ver la mayoría de los partidos.
 
- /analizar -> Este comando se utiliza junto con un mensaje, e.j: /analizar Buenos Dias. El bot devolvera un mensaje indicanco el sentimiento principal del mensaje junto con el porcentaje del mismo presente en el mensaje, e.j: /analizar Buenos Dias devuelve un sentimiento Neutral y un porcentaje de 0.52%
+ /analizar -> Este comando se utiliza junto con un mensaje, e.j: /analizar Buenos Dias. 
+ El bot devolvera un mensaje indicanco el sentimiento principal del mensaje junto con el porcentaje del mismo presente en el mensaje. 
+ E.j: /analizar Buenos Dias devuelve un sentimiento Neutral y un porcentaje de 0.52%
 
  En el caso de que se le pase una imagen, el bot devolvera un analisis de la imagen proporcionada.
 
