@@ -68,7 +68,8 @@ Capacidad de respuesta: El bot responde en base a un dataset de 15mil preguntas.
 4) Comandos del chatBot en Telegram:
 
 
-/start -> Este comando se utiliza para iniciar el chat del bot. Aparecera un mensaje de presentación con todos los comandos que el usuario de Telegram puede utilizar en el chat, los cuales son.
+/start -> Este comando se utiliza para iniciar el chat del bot. 
+Aparecera un mensaje de presentación con todos los comandos que el usuario de Telegram puede utilizar en el chat, los cuales son.
 
 /help -> Este comando muestra una lista con todos los comandos disponibles del bot, los cuales son:
 
