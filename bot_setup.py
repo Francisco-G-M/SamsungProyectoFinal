@@ -1,6 +1,7 @@
 import os
 import telebot
 from groq import Groq
+from transformers import pipeline
 from dotenv import load_dotenv
 
 load_dotenv()

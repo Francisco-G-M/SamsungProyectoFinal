@@ -20,9 +20,10 @@ Soy un bot multifunción.
 1. /analizar Sentimiento: Envía un mensaje de texto y te diré si es positivo, negativo o neutral.
     (Debes escribir el comando seguido del texto. Ej: /analizar me encanta esto)
 2. Describe Imagen: Envía una imagen y te daré una descripción detallada.
-3. Fútbol Argentino 🇦🇷 (¡Nuevo!):
+3. Fútbol Argentino 🇦🇷 :
     * Usa /faq para una pregunta aleatoria de fútbol.
     * Usa /transmision para saber dónde ver los partidos.
+    * Usa /help para ver todos mis comandos.
     * ¡O escríbeme una pregunta (ej: 'cuántas copas tiene boca') e intentaré buscarla en mi base de datos!
 
 ¡Pruebame!
