@@ -73,6 +73,7 @@ class FaqManager:
         return info
 
     def get_transmision_info(self):
+
         return self.transmision_info
 
     def _normalizar_texto(self, texto):
@@ -116,4 +117,7 @@ class FaqManager:
                 }
                 return pregunta_adaptada
         
+
         return None
+
+faq_manager = FaqManager()
