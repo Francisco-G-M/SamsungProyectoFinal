@@ -75,7 +75,6 @@ class FaqManager:
     def get_transmision_info(self):
         return self.transmision_info
 
-    # --- FUNCIÓN DE NORMALIZACIÓN AÑADIDA ---
     def _normalizar_texto(self, texto):
         """
         Quita tildes, puntuación básica y pasa a minúsculas.
@@ -84,45 +83,32 @@ class FaqManager:
             return ""
             
         texto = texto.lower()
-        # Quitar tildes
         texto = texto.replace('á', 'a').replace('é', 'e').replace('í', 'i').replace('ó', 'o').replace('ú', 'u')
-        # Quitar puntuación básica
         texto = texto.replace('?', '').replace('¿', '').replace('.', '').replace(',', '').replace('!', '').replace('¡', '')
         return texto.strip()
 
-    # --- FUNCIÓN DE BÚSQUEDA CORREGIDA Y MEJORADA ---
     def buscar_respuesta(self, texto_usuario):
         """
         Busca una respuesta en el dataset basada en el texto del usuario.
         """
         if not self.faq_data:
-            return None # No hay datos cargados
+            return None 
 
-        # 1. Normalizamos la entrada del usuario
         texto_usuario_normalizado = self._normalizar_texto(texto_usuario)
         if not texto_usuario_normalizado:
-            return None # Usuario no escribió nada útil
+            return None 
 
         for item in self.faq_data:
             
-            # 2. Obtenemos la pregunta (¡CORREGIDO!)
-            #    Buscamos 'pregunta' O 'question'
             texto_pregunta_original = item.get('pregunta', item.get('question', ''))
             
-            # 3. Normalizamos la pregunta del dataset
             texto_pregunta_normalizado = self._normalizar_texto(texto_pregunta_original)
             
             if not texto_pregunta_normalizado:
-                continue # Saltar si la pregunta en el JSON está vacía
+                continue 
 
-            # 4. LÓGICA DE BÚSQUEDA MEJORADA
-            #    Comparamos si la pregunta del dataset (ej: "que colores usa union")
-            #    está contenida en el texto del usuario (ej: "me decis que colores usa union")
-            #    o si son idénticas.
             if texto_pregunta_normalizado in texto_usuario_normalizado:
                 
-                # ¡Encontramos una coincidencia!
-                # Adaptamos las claves para asegurarnos de que el formato de retorno sea correcto
                 pregunta_adaptada = {
                     'categoria': item.get('categoria', 'General'),
                     'pregunta': item.get('pregunta', item.get('question', 'N/A')),
@@ -130,5 +116,4 @@ class FaqManager:
                 }
                 return pregunta_adaptada
         
-        # Si termina el bucle y no encuentra nada, devuelve None
         return None

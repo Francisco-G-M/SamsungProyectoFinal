@@ -1,5 +1,44 @@
 ⚽ FUTBOLBOT IA: Tu Asistente Inteligente de Fútbol
 
+"""
+## 🚀 Instalación (Usando Git Bash)
+
+Este proyecto fue desarrollado y probado con **Python 3.10.11**. Los siguientes pasos asumen que estás usando una terminal **Git Bash** en Windows.
+--Clonar el Repositorio:
+
+Primero debes clonar el proyecto en tu máquina:
+
+```bash
+# Reemplaza [URL-DEL-REPOSITORIO] con la URL de tu proyecto
+git clone [URL-DEL-REPOSITORIO]
+cd SamsungProyectoFinal/
+
+--Configurar el Entorno Virtual:
+Para que el proyecto funcione, necesitas crear un entorno virtual e instalar las dependencias.
+
+1-Crear un entorno virtual: (Se recomienda crearlo con el nombre emtorno-virtual en la raíz del proyecto)
+  python -m venv entorno-virtual
+
+2-Activar el entorno virtual: (Este es el comando específico para Git Bash).
+  source entorno-virtual/Scripts/activate
+Para saber si esta activado tu terminal ahora debería mostrar (entorno-virtual) al principio.
+
+3-Instalar Dependencias:
+Una vez activado el entorno, instala todas las librerías necesarias ejecutando:
+  pip install -r requirements.txt
+
+4-Configurar las claves API:
+Este proyecto necesita claves API para funcionar, las cuales se guardan en un archivo .env en la raíz del proyecto
+ 4a-En la carpeta raíz (SamsungProyectoFinal), crea un archivo llamado .env
+ 4b-Ábrelo y añade tus claves (reemplaza los valores de ejemplo):
+    TELEGRAM_BOT_TOKEN="AQUÍ_VA_TU_TOKEN_DE_TELEGRAM"
+    GROQ_API_KEY="AQUÍ_VA_TU_CLAVE_DE_GROQ"
+
+5-Ejecutar el proyecto:
+Con el entorno activado (entorno-virtual) y las dependencias instaladas, puedes ejecutar el bot:
+   python mainProyecto.py
+"""
+
 1) Propósito del chatbot
 FUTBOLBOT IA es un proyecto de Capstone que busca ser un asistente futbolero inteligente diseñado para el hincha. Nuestro objetivo es entender emociones, responder consultas sobre equipos locales, analizar audios e imágenes, y acercar la tecnología de IA al fanático del fútbol argentino de una manera natural y divertida.
 
