@@ -8,7 +8,7 @@ Este proyecto fue desarrollado y probado con **Python 3.10.11**. Los siguientes 
 
 Primero debes clonar el proyecto en tu máquina:
 
-```bash
+bash
 # Reemplaza [URL-DEL-REPOSITORIO] con la URL de tu proyecto
 git clone [URL-DEL-REPOSITORIO]
 cd SamsungProyectoFinal/
