@@ -1,102 +1,85 @@
 ⚽ FUTBOLBOT IA: Tu Asistente Inteligente de Fútbol
+FUTBOLBOT IA es un proyecto de Capstone que busca ser un asistente futbolero inteligente diseñado para el hincha. Nuestro objetivo es entender emociones, responder consultas sobre equipos locales, analizar audios e imágenes, y acercar la tecnología de IA al fanático del fútbol argentino de una manera natural y divertida.
 
-"""
-## 🚀 Instalación (Usando Git Bash)
+🧠 Características Principales
+Este bot combina múltiples tecnologías de IA para crear una experiencia de usuario integral:
 
-Este proyecto fue desarrollado y probado con **Python 3.10.11**. Los siguientes pasos asumen que estás usando una terminal **Git Bash** en Windows.
---Clonar el Repositorio:
+Procesamiento de Lenguaje Natural (PLN): Implementado para un análisis de sentimientos avanzado en español.
 
-Primero debes clonar el proyecto en tu máquina:
+Reconocimiento de Voz: Permite una interacción fluida al convertir los audios de los usuarios en texto procesable.
 
-bash
-# Reemplaza [URL-DEL-REPOSITORIO] con la URL de tu proyecto
+Análisis de Imágenes: Capacidad de analizar las imágenes enviadas por el usuario.
+
+Base de Conocimiento: El bot responde consultas basándose en un dataset curado de 15,000 preguntas y respuestas.
+
+Interacción Natural: Las respuestas están diseñadas para ser cortas, directas y fluidas, simulando una conversación real.
+
+🚀 Instalación y Puesta en Marcha
+Requisito Previo: Este proyecto fue desarrollado y probado con Python 3.10.11. Los siguientes pasos asumen que estás usando una terminal Git Bash en Windows.
+
+1. Clonar el Repositorio
+Primero, clona el proyecto en tu máquina local y navega al directorio.
+
+Bash
+
+# Remplaza [URL-DEL-REPOSITORIO] con la URL de tu proyecto
 git clone [URL-DEL-REPOSITORIO]
 cd SamsungProyectoFinal/
+2. Configurar el Entorno Virtual
+Es una buena práctica usar un entorno virtual para manejar las dependencias del proyecto.
 
---Configurar el Entorno Virtual:
-Para que el proyecto funcione, necesitas crear un entorno virtual e instalar las dependencias.
+Bash
 
-1-Crear un entorno virtual: (Se recomienda crearlo con el nombre emtorno-virtual en la raíz del proyecto)
-  python -m venv entorno-virtual
+# 1. Crear el entorno virtual
+python -m venv entorno-virtual
 
-2-Activar el entorno virtual: (Este es el comando específico para Git Bash).
-  source entorno-virtual/Scripts/activate
-Para saber si esta activado tu terminal ahora debería mostrar (entorno-virtual) al principio.
+# 2. Activar el entorno virtual (específico para Git Bash)
+source entorno-virtual/Scripts/activate
+Tu terminal ahora debería mostrar (entorno-virtual) al principio de la línea.
 
-3-Instalar Dependencias:
-Una vez activado el entorno, instala todas las librerías necesarias ejecutando:
-  pip install -r requirements.txt
+3. Instalar Dependencias
+Una vez activado el entorno, instala todas las librerías necesarias.
 
-4-Configurar las claves API:
-Este proyecto necesita claves API para funcionar, las cuales se guardan en un archivo .env en la raíz del proyecto
- 4a-En la carpeta raíz (SamsungProyectoFinal), crea un archivo llamado .env
- 4b-Ábrelo y añade tus claves (reemplaza los valores de ejemplo):
-    TELEGRAM_BOT_TOKEN="AQUÍ_VA_TU_TOKEN_DE_TELEGRAM"
-    GROQ_API_KEY="AQUÍ_VA_TU_CLAVE_DE_GROQ"
+Bash
 
-5-Ejecutar el proyecto:
-Con el entorno activado (entorno-virtual) y las dependencias instaladas, puedes ejecutar el bot:
-   python mainProyecto.py
-"""
+pip install -r requirements.txt
+4. Configurar las Claves API
+El bot necesita claves API para conectarse a los servicios de Telegram y Groq.
 
-1) Propósito del chatbot
-FUTBOLBOT IA es un proyecto de Capstone que busca ser un asistente futbolero inteligente diseñado para el hincha. Nuestro objetivo es entender emociones, 
-responder consultas sobre equipos locales, analizar audios e imágenes, 
-y acercar la tecnología de IA al fanático del fútbol argentino de una manera natural y divertida.
+En la carpeta raíz del proyecto (SamsungProyectoFinal), crea un archivo llamado .env.
 
-2) Funcionalidad y Experiencia de Uso
-Enfoque: Lograr una interacción natural y fluida.
+Abre el archivo .env y añade tus claves de la siguiente manera:
 
-Diseño de Conversación Fluida: Acepta comandos claros a través de voz, imagen y texto/sentimiento.
+Ini, TOML
 
-Interacción Natural: El bot contesta con mensajes cortos y directos.
+TELEGRAM_BOT_TOKEN="AQUÍ_VA_TU_TOKEN_DE_TELEGRAM"
+GROQ_API_KEY="AQUÍ_VA_TU_CLAVE_DE_GROQ"
+5. Ejecutar el Proyecto
+Con el entorno activado y las claves configuradas, ya puedes ejecutar el bot.
 
-3) Aplicación de Inteligencia Artificial
+Bash
 
-Enfoque: Combinar múltiples tecnologías de IA para una experiencia integral.
+python mainProyecto.py
+🤖 Comandos de Telegram
+/start Inicia la conversación con el bot. Muestra un mensaje de bienvenida y una lista de todos los comandos disponibles.
 
-Los tres pilares de IA en FUTBOLBOT son:
+/help Muestra la lista completa de comandos que puedes usar.
 
-Procesamiento de Lenguaje Natural (PLN): Implementado para el análisis de sentimientos en español.
+/faq El bot seleccionará una pregunta y respuesta aleatoria de su base de datos y te la mostrará.
 
-Reconocimiento de Voz: Permite la interacción convirtiendo los audios de los usuarios en texto.
+/transmision Muestra un mensaje con canales recomendados para ver la mayoría de los partidos.
 
-Análisis de Emociones: Una función clave para analizar las emociones del usuario.
+/analizar [texto o imagen] Este comando tiene dos usos:
 
-Capacidad de respuesta: El bot responde en base a un dataset de 15mil preguntas. 
+Con texto: Envía el comando seguido de un mensaje (ej: /analizar ¡Qué gran partido!). El bot devolverá el sentimiento principal (ej: Positivo) y su porcentaje.
 
-4) Comandos del chatBot en Telegram:
+Con una imagen: Envía una imagen y usa /analizar en el pie de foto (o simplemente envía la imagen). El bot devolverá un análisis de la misma.
 
+📈 Impacto Potencial y Escalabilidad
+El diseño del proyecto está pensado para la expansión y la integración con sistemas externos.
 
-/start -> Este comando se utiliza para iniciar el chat del bot. 
-Aparecera un mensaje de presentación con todos los comandos que el usuario de Telegram puede utilizar en el chat, los cuales son.
+Adaptabilidad: El bot puede ampliarse fácilmente para cubrir más clubes, ligas o incluso la selección nacional.
 
-/help -> Este comando muestra una lista con todos los comandos disponibles del bot, los cuales son:
+Integración en Tiempo Real: La arquitectura permite una futura integración con APIs de resultados en tiempo real para dar información actualizada al minuto.
 
- /faq -> Este comando se utiliza para que el bot tome un par pregunta y respuesta aleatoria de su dataset, y se lo muestre al usuario vía chat.
-
- /transmision -> Este comando se utiliza para que el bot muestre una mensaje de canales recomendados para ver la mayoría de los partidos.
-
- /analizar -> Este comando se utiliza junto con un mensaje, e.j: /analizar Buenos Dias. 
- El bot devolvera un mensaje indicanco el sentimiento principal del mensaje junto con el porcentaje del mismo presente en el mensaje. 
- E.j: /analizar Buenos Dias devuelve un sentimiento Neutral y un porcentaje de 0.52%
-
- En el caso de que se le pase una imagen, el bot devolvera un analisis de la imagen proporcionada.
-
-5) Creatividad e Innovación
-
-Punto Clave: Combina tres tipos de IA (texto, voz, imagen) en un solo bot.
-
-Integrar las capacidades de IA para texto, voz e imagen en una única experiencia.
-
-Su capacidad para analizar y responder a las emociones del usuario.
-
-6) Impacto Potencial y Escalabilidad
-
-Enfoque: Diseño pensado para la expansión y la integración con sistemas externos.
-
-Adaptabilidad: Puede ampliarse a distintos clubes o selecciones más allá del enfoque local inicial.
-
-Integración en Tiempo Real: Permite la integración con APIs de resultados en tiempo real para información actualizada.
-
-Expansión Regional: Tiene potencial para adaptarse a otros deportes o regiones, simplemente ajustando el tono y la base de datos (dataset).
+Expansión Regional: El modelo tiene potencial para adaptarse a otros deportes o regiones, simplemente ajustando el tono y la base de datos.
