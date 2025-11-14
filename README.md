@@ -14,7 +14,13 @@ Este bot combina múltiples tecnologías de IA para crear una experiencia de usu
 
 ## 🚀 Instalación y Puesta en Marcha
 
-> **Requisito Previo:** Este proyecto fue desarrollado y probado con **Python 3.10.11**. Los siguientes pasos asumen que estás usando una terminal **Git Bash** en Windows.
+> **Requisito Previo:** Este proyecto fue desarrollado y probado con **Python 3.10.11**. Los siguientes pasos asumen que estás usando una terminal **Git Bash** en Windows.\
+**IMPORTANTE:** Este proyecto usa **Git LFS** para manejar el dataset. Antes de clonar, debes instalarlo.
+1.  Descarga e instala Git LFS desde: [git-lfs.github.com](https://git-lfs.github.com/)
+2.  Una vez instalado, abre tu terminal "Git Bash" y ejecuta este comando para activarlo (solo se hace una vez por computadora):
+    ```bash
+    git lfs install
+    ```
 
 # 1. Clonar el Repositorio
 
