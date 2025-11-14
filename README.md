@@ -1,7 +1,7 @@
-⚽ FUTBOLBOT IA: Tu Asistente Inteligente de Fútbol
+# ⚽ FUTBOLBOT IA: Tu Asistente Inteligente de Fútbol
 FUTBOLBOT IA es un proyecto de Capstone que busca ser un asistente futbolero inteligente diseñado para el hincha. Nuestro objetivo es entender emociones, responder consultas sobre equipos locales, analizar audios e imágenes, y acercar la tecnología de IA al fanático del fútbol argentino de una manera natural y divertida.
 
-🧠 Características Principales
+# 🧠 Características Principales
 Este bot combina múltiples tecnologías de IA para crear una experiencia de usuario integral:
 
 Procesamiento de Lenguaje Natural (PLN): Implementado para un análisis de sentimientos avanzado en español.
