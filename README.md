@@ -40,8 +40,11 @@ Crear un entorno virtual:\
 python -m venv entorno-transformers
 
 # 3. Instalar Dependencias
-Una vez activado el entorno, instala todas las librerías necesarias.\
 
+Antes que nada, debes activar el entorno virtual:\
+source entorno-transformers/Scripts/activate
+
+Una vez activado el entorno, instala todas las librerías necesarias.\
 pip install -r requirements.txt
 
 # 4. Configurar las Claves API
