@@ -16,9 +16,6 @@ def imagen_a_base64(ruta_o_bytes_imagen):
 
 def describir_imagen_con_groq(imagen_base64):
     try:
-        # --- ¡PROMPT MEJORADO PARA MÁXIMO DETALLE! ---
-        # Le damos un rol dual (experto en fútbol + crítico visual)
-        # y una estructura de 4 pasos para forzarlo a ser detallado.
         prompt_experto_detallado = """
         Sos un experto en fútbol argentino 🇦🇷⚽ y un analista visual.
         Tu tarea es describir esta imagen con un nivel de detalle **excepcional y minucioso**.
@@ -40,7 +37,6 @@ def describir_imagen_con_groq(imagen_base64):
                     "content": [
                         {
                             "type": "text",
-                            # Usamos el nuevo prompt súper detallado
                             "text": prompt_experto_detallado 
                         },
                         {
