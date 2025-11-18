@@ -44,7 +44,10 @@ python -m venv entorno-transformers
 Antes que nada, debes activar el entorno virtual:\
 source entorno-transformers/Scripts/activate
 
-Una vez activado el entorno, instala todas las librerías necesarias.\
+Ahora vuelve a la carpeta raiz:\
+cd ..
+
+Instala todas las librerías necesarias.\
 pip install -r requirements.txt
 
 # 4. Configurar las Claves API
