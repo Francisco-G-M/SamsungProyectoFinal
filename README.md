@@ -52,7 +52,9 @@ pip install -r requirements.txt
 
 # 4. Configurar las Claves API
 El bot necesita claves API para conectarse a los servicios de Telegram y Groq.\
+
 -En la carpeta raíz del proyecto (SamsungProyectoFinal), crea un archivo llamado .env.\
+
 -Abre el archivo .env y añade tus claves de la siguiente manera:
 
 TELEGRAM_BOT_TOKEN="AQUÍ_VA_TU_TOKEN_DE_TELEGRAM"\
