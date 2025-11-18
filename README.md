@@ -33,6 +33,9 @@ cd SamsungProyectoFinal/
 # 2. Configurar el Entorno Virtual
 Es una buena práctica usar un entorno virtual para manejar las dependencias del proyecto. Mediante la terminal ve a la carpeta de Transformers y dentro de ella realiza el siguiente comando:
 
+Muevete a la carpeta Transformers:\
+cd SamsungProyectoFinal/Transformers/
+
 Crear un entorno virtual:\
 python -m venv entorno-transformers
 
